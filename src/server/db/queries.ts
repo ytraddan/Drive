@@ -103,4 +103,17 @@ export const MUTATIONS = {
   createFile: async function (input: DB_FileType) {
     return await db.insert(fileSchema).values(input);
   },
+
+  createRootFolder: async function (userId: string) {
+    const rootFolderId = await db
+      .insert(folderSchema)
+      .values({
+        name: "My Drive",
+        parent: null,
+        ownerId: userId,
+      })
+      .$returningId();
+
+    return rootFolderId[0]?.id;
+  },
 };
